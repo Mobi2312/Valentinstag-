@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<title>Valentinstag 💖</title>
+
+<style>
+  html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    background: pink;
+    overflow: hidden;
+  }
+
+  .container {
+    position: relative;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* vertikal zentriert */
+    align-items: center;     /* horizontal zentriert */
+    z-index: 3;
+    text-align: center;
+  }
+
+  h1, h2 {
+    margin: 10px;
+    z-index: 3;
+    pointer-events: none;
+  }
+
+  .buttons {
+    margin-top: 20px;
+    z-index: 3;
+  }
+
+  button {
+    font-size: 20px;
+    padding: 10px 25px;
+    margin: 0 20px;
+    cursor: pointer;
+    position: relative;
+  }
+
+  #nein {
+    position: absolute; /* damit er frei springen kann */
+  }
+
+  /* Herzregen */
+  .heart {
+    position: fixed;
+    top: -10px;
+    font-size: 24px;
+    color: rgba(255, 0, 100, 0.7);
+    animation: fall linear infinite;
+    z-index: 1;
+    pointer-events: none;
+  }
+
+  @keyframes fall {
+    from { transform: translateY(0); }
+    to { transform: translateY(110vh); }
+  }
+</style>
+</head>
+
+<body>
+
+<div class="container" id="container">
+  <h1 id="title">Willst du mein Valentinstagsdate sein? 💕</h1>
+  <div class="buttons">
+    <button id="ja">Ja</button>
+    <button id="nein">Nein</button>
+  </div>
+</div>
+
+<script>
+  const nein = document.getElementById("nein");
+  const ja = document.getElementById("ja");
+  const container = document.getElementById("container");
+  const title = document.getElementById("title");
+
+  // Herzregen
+  function createHeart() {
+    const heart = document.createElement("div");
+    heart.classList.add("heart");
+    heart.innerText = "❤️";
+    heart.style.left = Math.random() * 100 + "vw";
+    heart.style.fontSize = (Math.random() * 20 + 15) + "px";
+    heart.style.animationDuration = (Math.random() * 3 + 4) + "s";
+    document.body.appendChild(heart);
+
+    setTimeout(() => heart.remove(), 8000);
+  }
+
+  let heartInterval = setInterval(createHeart, 300);
+
+  // Stabiler Nein-Button
+  nein.addEventListener("mouseover", () => {
+    const maxX = window.innerWidth - nein.offsetWidth - 10;
+    const maxY = window.innerHeight - nein.offsetHeight - 10;
+    const x = Math.random() * maxX;
+    const y = Math.random() * maxY;
+    nein.style.left = x + "px";
+    nein.style.top = y + "px";
+  });
+
+  // Ja-Button
+  ja.addEventListener("click", () => {
+    // Buttons ausblenden
+    ja.style.display = "none";
+    nein.style.display = "none";
+
+    // Text ändern
+    title.innerText = "JAAAA ☺️";
+    const loveText = document.createElement("h2");
+    loveText.innerText = "Ich liebe dich über alles mein Schatz ❤️❤️❤️❤️";
+    container.appendChild(loveText);
+
+    // Herzregen schneller
+    clearInterval(heartInterval);
+    heartInterval = setInterval(createHeart, 120);
+  });
+</script>
+
+</body>
+</html>
